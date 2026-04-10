@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeRedTeam — Developer Tools for Cloud Security</title>
-    <meta property="og:title" content="LeRedTeam — Developer Tools for Cloud Security">
-    <meta property="og:description" content="Enforce least-privilege AWS IAM policies in your CI/CD pipeline.">
+    <title>LeRedTeam — Developer Tools for Cloud Security &amp; CI/CD</title>
+    <meta property="og:title" content="LeRedTeam — Developer Tools for Cloud Security & CI/CD">
+    <meta property="og:description" content="Developer tools that save you time and money. Cache Doctor for GitHub Actions. IAMPG for AWS IAM.">
     <meta property="og:image" content="https://leredteam.github.io/LeRedLogo.jpeg">
     <meta property="og:url" content="https://leredteam.github.io">
     <meta property="og:type" content="website">
@@ -25,6 +25,7 @@
         .product a { color: #4361ee; text-decoration: none; font-weight: 600; }
         .product a:hover { text-decoration: underline; }
         .badge { display: inline-block; background: #4361ee; color: #fff; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+        .badge-new { background: #2ecc71; }
         .pricing table { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-top: 16px; }
         .pricing th, .pricing td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e0e0e0; }
         .pricing th { background: #f5f5f5; }
@@ -38,7 +39,27 @@
 <body>
     <div class="container">
         <h1><img src="LeRedLogo.jpeg" alt="LeRedTeam logo">LeRedTeam</h1>
-        <p class="tagline">Developer tools for cloud security.</p>
+        <p class="tagline">Developer tools for cloud security and CI/CD.</p>
+
+        <div class="product">
+            <h2>Cache Doctor <span class="badge badge-new">NEW</span> <span class="badge">v1.0</span></h2>
+            <p>Diagnose and optimize GitHub Actions cache health. Find orphan caches, detect bad key patterns, reclaim wasted quota. Runs on every PR as a continuous linter.</p>
+            <p>
+                <a href="https://github.com/LeRedTeam/cache-doctor">GitHub</a> &middot;
+                <a href="https://github.com/LeRedTeam/cache-doctor#quick-start">Quick Start</a> &middot;
+                <a href="https://github.com/LeRedTeam/cache-doctor/releases">Download</a>
+            </p>
+
+            <div class="pricing">
+                <h3>Pricing</h3>
+                <table>
+                    <tr><th>Plan</th><th>Price</th><th>Includes</th></tr>
+                    <tr><td>Free</td><td>$0</td><td>Analyze, cleanup, job summary, JSON output</td></tr>
+                    <tr><td>Pro</td><td><a href="https://buy.stripe.com/8x27sMddN25xgoU1Ld2cg06">$15/month</a> or <a href="https://buy.stripe.com/3cIfZiehR25x2y4gG72cg05">$119/year</a></td><td>All features: 19 lint rules, SARIF, PR comments, hit/miss analysis</td></tr>
+                    <tr><td>Commercial</td><td><a href="https://buy.stripe.com/fZu00k4HhdOf8Ws9dF2cg04">$149/year</a></td><td>All Pro features + AGPL-3.0 license exemption</td></tr>
+                </table>
+            </div>
+        </div>
 
         <div class="product">
             <h2>iampg <span class="badge">v1.0</span></h2>
@@ -66,7 +87,7 @@
             <p>We offer a 30-day refund policy, no questions asked. If you are not satisfied with your purchase, contact us within 30 days of payment for a full refund. Refunds are processed via the original payment method. The license key is revoked upon refund.</p>
 
             <h3>Terms of Service</h3>
-            <p>By purchasing a license for iampg, you agree to the following:</p>
+            <p>By purchasing a license for any LeRedTeam product, you agree to the following:</p>
             <ul>
                 <li>License keys are personal and tied to the email address used at purchase.</li>
                 <li>Pro licenses grant access to paid features under the AGPL-3.0 license terms.</li>
@@ -80,8 +101,8 @@
             <h3>Privacy Policy</h3>
             <p>LeRedTeam is committed to your privacy:</p>
             <ul>
-                <li><strong>No data collection:</strong> iampg runs entirely on your machine. No telemetry, no analytics, no tracking.</li>
-                <li><strong>No credential access:</strong> iampg uses your existing AWS credentials but never stores, logs, or transmits them.</li>
+                <li><strong>No data collection:</strong> Our tools run entirely on your machine or in your CI. No telemetry, no analytics, no tracking.</li>
+                <li><strong>No credential access:</strong> Tools use your existing credentials but never store, log, or transmit them.</li>
                 <li><strong>Payment data:</strong> Payments are processed by <a href="https://stripe.com/privacy">Stripe</a>. We do not store credit card information. We only retain your email address and license tier for license key generation.</li>
                 <li><strong>License validation:</strong> License keys are validated offline using cryptographic signatures. No network calls are made.</li>
                 <li><strong>No cookies:</strong> This website does not use cookies or tracking scripts.</li>

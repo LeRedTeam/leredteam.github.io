@@ -212,18 +212,28 @@
                 <div class="terminal-dot r"></div>
                 <div class="terminal-dot y"></div>
                 <div class="terminal-dot g"></div>
-                <span>terminal</span>
+                <span>iampg refine --enforce</span>
             </div>
-            <pre><span class="t-prompt">$</span> <span class="t-cmd">iampg run -- aws s3 cp data.csv s3://my-bucket/uploads/</span>
+            <pre><span class="t-prompt">$</span> <span class="t-cmd">iampg refine --input infra/deploy-policy.json --enforce</span>
 
-<span class="t-dim">{</span>
-  <span class="t-key">"Version"</span><span class="t-dim">:</span> <span class="t-str">"2012-10-17"</span><span class="t-dim">,</span>
-  <span class="t-key">"Statement"</span><span class="t-dim">: [{</span>
-    <span class="t-key">"Effect"</span><span class="t-dim">:</span> <span class="t-str">"Allow"</span><span class="t-dim">,</span>
-    <span class="t-key">"Action"</span><span class="t-dim">:</span> <span class="t-str">["s3:PutObject"]</span><span class="t-dim">,</span>
-    <span class="t-key">"Resource"</span><span class="t-dim">:</span> <span class="t-str">"arn:aws:s3:::my-bucket/uploads/data.csv"</span>
-  <span class="t-dim">}]</span>
-<span class="t-dim">}</span></pre>
+<span class="t-head">Policy Analysis</span>
+<span class="t-dim">==================================================</span>
+<span class="t-dim">Statements:</span> <span class="t-cmd">3</span>    <span class="t-dim">Issues:</span> <span class="t-key">4</span>
+
+  <span class="t-key">FAIL</span>  <span class="t-cmd">wildcard-action</span>    <span class="t-dim">s3:* grants all actions</span>
+        <span class="t-dim">→ Replace with:</span> <span class="t-str">s3:PutObject, s3:GetObject</span>
+
+  <span class="t-key">FAIL</span>  <span class="t-cmd">wildcard-resource</span>  <span class="t-dim">Resource: * on statement 2</span>
+        <span class="t-dim">→ Scope to:</span> <span class="t-str">arn:aws:s3:::my-bucket/*</span>
+
+  <span class="t-key">FAIL</span>  <span class="t-cmd">dangerous-perm</span>     <span class="t-dim">iam:CreateUser can create IAM users</span>
+        <span class="t-dim">→ Remove or justify</span>
+
+  <span class="t-warn">WARN</span>  <span class="t-cmd">unused-action</span>      <span class="t-dim">s3:DeleteObject never called in 30 days</span>
+        <span class="t-dim">→ Consider removing</span>
+
+<span class="t-key">Enforcement: FAILED</span> <span class="t-dim">— 3 blocking issues found</span>
+<span class="t-dim">Exit code: 1</span></pre>
         </div>
 
         <div class="pricing-row">

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeRedTeam — Developer Tools for Cloud Security &amp; CI/CD</title>
-    <meta property="og:title" content="LeRedTeam — Developer Tools for Cloud Security & CI/CD">
-    <meta property="og:description" content="Developer tools that save you time and money. Cache Doctor for GitHub Actions. IAMPG for AWS IAM.">
+    <title>LeRedTeam — CI/CD Tools That Catch What You Miss</title>
+    <meta property="og:title" content="LeRedTeam — CI/CD Tools That Catch What You Miss">
+    <meta property="og:description" content="Fix GitHub Actions cache waste. Enforce least-privilege IAM. Two lines of YAML. Zero infrastructure.">
     <meta property="og:image" content="https://leredteam.github.io/LeRedLogo.jpeg">
     <meta property="og:url" content="https://leredteam.github.io">
     <meta property="og:type" content="website">
@@ -13,78 +13,298 @@
     <link rel="icon" type="image/jpeg" href="LeRedLogo.jpeg">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; background: #fafafa; line-height: 1.6; }
-        .container { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
-        h1 { font-size: 2.2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; }
-        h1 img { width: 48px; height: 48px; border-radius: 8px; }
-        h2 { font-size: 1.4rem; margin-bottom: 8px; }
-        h3 { font-size: 1.1rem; margin-top: 32px; margin-bottom: 8px; }
-        .tagline { font-size: 1.2rem; color: #555; margin-bottom: 48px; }
-        .product { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 32px; margin-bottom: 24px; }
-        .product p { color: #555; margin-bottom: 16px; }
-        .product a { color: #4361ee; text-decoration: none; font-weight: 600; }
-        .product a:hover { text-decoration: underline; }
-        .badge { display: inline-block; background: #4361ee; color: #fff; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
-        .badge-new { background: #2ecc71; }
-        .pricing table { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-top: 16px; }
-        .pricing th, .pricing td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e0e0e0; }
-        .pricing th { background: #f5f5f5; }
-        .legal { margin-top: 48px; }
-        .legal p, .legal ul { color: #555; margin-bottom: 12px; }
-        .legal ul { padding-left: 20px; }
-        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e0e0e0; color: #999; font-size: 0.85rem; }
-        footer a { color: #777; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #e0e0e0; background: #0a0a0f; line-height: 1.7; }
+        a { color: #ff4040; text-decoration: none; font-weight: 600; }
+        a:hover { text-decoration: underline; }
+        code { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; }
+
+        /* Hero */
+        .hero { max-width: 800px; margin: 0 auto; padding: 80px 24px 48px; text-align: center; }
+        .hero img { width: 72px; height: 72px; border-radius: 12px; margin-bottom: 32px; }
+        .hero h1 { font-size: 2.8rem; color: #fff; line-height: 1.2; margin-bottom: 20px; letter-spacing: -0.5px; }
+        .hero h1 span { color: #ff4040; }
+        .hero .subtitle { font-size: 1.2rem; color: #888; max-width: 540px; margin: 0 auto 40px; }
+        .hero .trust { color: #444; font-size: 0.85rem; margin-top: 24px; }
+
+        /* Product sections */
+        .product-section { max-width: 860px; margin: 0 auto; padding: 60px 24px; }
+        .product-section + .product-section { padding-top: 20px; }
+        .product-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+        .product-header h2 { font-size: 1.8rem; color: #fff; }
+        .badge { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-new { background: #ff4040; color: #fff; }
+        .product-pain { font-size: 1.15rem; color: #999; margin-bottom: 32px; max-width: 640px; }
+        .product-pain strong { color: #ccc; }
+        .product-links { margin-bottom: 32px; display: flex; gap: 16px; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 12px 24px; border-radius: 8px; font-size: 0.95rem; font-weight: 700; transition: opacity 0.2s; }
+        .btn:hover { text-decoration: none; opacity: 0.9; }
+        .btn-primary { background: #ff4040; color: #fff; }
+        .btn-ghost { background: transparent; color: #ccc; border: 1px solid #333; }
+
+        /* Terminal */
+        .terminal { background: #141419; border: 1px solid #1e1e28; border-radius: 12px; overflow: hidden; margin-bottom: 32px; }
+        .terminal-bar { background: #1a1a22; padding: 12px 16px; display: flex; gap: 8px; align-items: center; }
+        .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .terminal-dot.r { background: #ff5f57; }
+        .terminal-dot.y { background: #febc2e; }
+        .terminal-dot.g { background: #28c840; }
+        .terminal-bar span { color: #555; font-size: 0.8rem; margin-left: 8px; }
+        .terminal pre { padding: 24px; font-size: 0.85rem; line-height: 1.8; overflow-x: auto; }
+        .t-prompt { color: #ff4040; }
+        .t-cmd { color: #fff; }
+        .t-dim { color: #555; }
+        .t-key { color: #ff4040; }
+        .t-str { color: #7ec699; }
+        .t-warn { color: #febc2e; }
+        .t-head { color: #ccc; font-weight: 700; }
+        .t-ok { color: #28c840; }
+
+        /* Pricing */
+        .pricing-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+        .price-card { background: #141419; border: 1px solid #1e1e28; border-radius: 12px; padding: 28px 20px; text-align: center; position: relative; }
+        .price-card.featured { border-color: #ff4040; }
+        .price-card .label { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #ff4040; color: #fff; font-size: 0.65rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+        .price-card h3 { color: #fff; font-size: 1.1rem; margin-bottom: 12px; }
+        .price-card .price { font-size: 2rem; color: #fff; font-weight: 800; }
+        .price-card .price small { font-size: 0.9rem; font-weight: 400; color: #666; }
+        .price-card .period { color: #444; font-size: 0.8rem; margin-bottom: 20px; }
+        .price-card ul { list-style: none; text-align: left; margin-bottom: 24px; }
+        .price-card li { padding: 5px 0; color: #888; font-size: 0.85rem; }
+        .price-card li::before { content: "~"; color: #ff4040; margin-right: 8px; font-weight: 700; }
+        .price-card .btn { display: block; width: 100%; text-align: center; padding: 10px; font-size: 0.9rem; }
+
+        /* Divider */
+        .divider { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+        .divider hr { border: none; border-top: 1px solid #1a1a22; }
+
+        /* Philosophy */
+        .philosophy { max-width: 860px; margin: 0 auto; padding: 60px 24px; }
+        .philosophy h2 { font-size: 1.8rem; color: #fff; text-align: center; margin-bottom: 40px; }
+        .phil-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .phil-item { text-align: center; }
+        .phil-item h3 { color: #fff; font-size: 0.95rem; margin-bottom: 6px; }
+        .phil-item p { color: #555; font-size: 0.85rem; }
+
+        /* Legal */
+        .legal { max-width: 860px; margin: 0 auto; padding: 40px 24px; }
+        .legal-toggle { background: none; border: 1px solid #1a1a22; color: #555; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; width: 100%; text-align: left; font-family: inherit; }
+        .legal-toggle:hover { border-color: #333; color: #888; }
+        .legal-content { display: none; padding: 32px 0; }
+        .legal-content.open { display: block; }
+        .legal-content h3 { color: #ccc; font-size: 1rem; margin-top: 24px; margin-bottom: 8px; }
+        .legal-content h3:first-child { margin-top: 0; }
+        .legal-content p, .legal-content li { color: #666; font-size: 0.88rem; margin-bottom: 8px; }
+        .legal-content ul { padding-left: 20px; }
+
+        /* Footer */
+        footer { max-width: 860px; margin: 0 auto; padding: 24px; border-top: 1px solid #141419; text-align: center; }
+        footer p { color: #333; font-size: 0.8rem; }
+        footer a { color: #444; font-weight: 400; }
+
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 2rem; }
+            .pricing-row, .phil-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1><img src="LeRedLogo.jpeg" alt="LeRedTeam logo">LeRedTeam</h1>
-        <p class="tagline">Developer tools for cloud security and CI/CD.</p>
 
-        <div class="product">
-            <h2>Cache Doctor <span class="badge badge-new">NEW</span> <span class="badge">v1.0</span></h2>
-            <p>Diagnose and optimize GitHub Actions cache health. Find orphan caches, detect bad key patterns, reclaim wasted quota. Runs on every PR as a continuous linter.</p>
-            <p>
-                <a href="https://github.com/LeRedTeam/cache-doctor">GitHub</a> &middot;
-                <a href="https://github.com/LeRedTeam/cache-doctor#quick-start">Quick Start</a> &middot;
-                <a href="https://github.com/LeRedTeam/cache-doctor/releases">Download</a>
-            </p>
+    <!-- Hero -->
+    <div class="hero">
+        <img src="LeRedLogo.jpeg" alt="LeRedTeam">
+        <h1>Your CI/CD pipeline has<br><span>problems you can't see.</span></h1>
+        <p class="subtitle">We build tools that find them. Single binaries. Zero infrastructure. Two lines of YAML.</p>
+        <p class="trust">AGPL-3.0 open source &middot; No telemetry &middot; No backend &middot; No BS</p>
+    </div>
 
-            <div class="pricing">
-                <h3>Pricing</h3>
-                <table>
-                    <tr><th>Plan</th><th>Price</th><th>Includes</th></tr>
-                    <tr><td>Free</td><td>$0</td><td>Analyze, cleanup, job summary, JSON output</td></tr>
-                    <tr><td>Pro</td><td><a href="https://buy.stripe.com/8x27sMddN25xgoU1Ld2cg06">$15/month</a> or <a href="https://buy.stripe.com/3cIfZiehR25x2y4gG72cg05">$119/year</a></td><td>All features: 19 lint rules, SARIF, PR comments, hit/miss analysis</td></tr>
-                    <tr><td>Commercial</td><td><a href="https://buy.stripe.com/fZu00k4HhdOf8Ws9dF2cg04">$149/year</a></td><td>All Pro features + AGPL-3.0 license exemption</td></tr>
-                </table>
-            </div>
+    <!-- Cache Doctor -->
+    <div class="product-section">
+        <div class="product-header">
+            <h2>Cache Doctor</h2>
+            <span class="badge badge-new">New</span>
+        </div>
+        <p class="product-pain"><strong>Your GitHub Actions caches are wasting money. You just can't see it.</strong> Orphan caches from deleted branches, bad key patterns that never hit, quota silently filling up. Cache Doctor finds it all.</p>
+
+        <div class="product-links">
+            <a href="https://github.com/LeRedTeam/cache-doctor" class="btn btn-primary">View on GitHub</a>
+            <a href="https://github.com/LeRedTeam/cache-doctor#quick-start" class="btn btn-ghost">Quick start</a>
         </div>
 
-        <div class="product">
-            <h2>iampg <span class="badge">v1.0</span></h2>
-            <p>Enforce least-privilege AWS IAM policies in your CI/CD pipeline. Generate minimal IAM policies by observing real AWS API calls.</p>
-            <p>
-                <a href="https://github.com/LeRedTeam/iampg">GitHub</a> &middot;
-                <a href="https://leredteam.github.io/iampg">Documentation</a>
-            </p>
-
-            <div class="pricing">
-                <h3>Pricing</h3>
-                <table>
-                    <tr><th>Plan</th><th>Price</th><th>Includes</th></tr>
-                    <tr><td>Free</td><td>$0</td><td>run, parse, JSON output</td></tr>
-                    <tr><td>Pro</td><td><a href="https://buy.stripe.com/14A8wQ6PpaC37SoexZ2cg03">$19/month</a> or <a href="https://buy.stripe.com/7sY8wQ2z95hJc8E0H92cg00">$149/year</a></td><td>All features: refine, aggregate, YAML/Terraform/SARIF, CI enforcement</td></tr>
-                    <tr><td>Commercial</td><td><a href="https://buy.stripe.com/00w4gA0r1aC3fkQ61t2cg02">$149/year</a></td><td>All Pro features + AGPL-3.0 license exemption</td></tr>
-                </table>
+        <div class="terminal">
+            <div class="terminal-bar">
+                <div class="terminal-dot r"></div>
+                <div class="terminal-dot y"></div>
+                <div class="terminal-dot g"></div>
+                <span>cache-doctor analyze</span>
             </div>
+            <pre><span class="t-head">Cache Health Report</span>
+<span class="t-dim">==================================================</span>
+
+<span class="t-dim">Quota:</span>  <span class="t-warn">7.2 GB</span> <span class="t-dim">/ 10.0 GB (72%)</span>
+<span class="t-dim">Total:</span>  <span class="t-cmd">31 caches</span>
+  <span class="t-ok">Active:  18</span> <span class="t-dim">(3.8 GB)</span>
+  <span class="t-warn">Stale:    8</span> <span class="t-dim">(2.1 GB) — not accessed recently</span>
+  <span class="t-key">Orphan:   5</span> <span class="t-dim">(1.3 GB) — branch deleted</span>
+
+<span class="t-head">Recommendations</span>
+<span class="t-dim">==================================================</span>
+  <span class="t-key">!</span> <span class="t-cmd">Delete 5 orphan caches</span> <span class="t-dim">→ reclaim 1.3 GB</span>
+  <span class="t-key">!</span> <span class="t-cmd">Fix key pattern on "setup-node"</span> <span class="t-dim">→ 0% hit rate</span>
+  <span class="t-key">!</span> <span class="t-cmd">Review 8 stale caches</span> <span class="t-dim">→ last accessed 30+ days ago</span></pre>
         </div>
 
-        <div class="legal">
-            <h2>Policies</h2>
+        <div class="pricing-row">
+            <div class="price-card">
+                <h3>Free</h3>
+                <div class="price">$0</div>
+                <div class="period">forever</div>
+                <ul>
+                    <li>Analyze + cleanup</li>
+                    <li>Job summary</li>
+                    <li>JSON output</li>
+                </ul>
+                <a href="https://github.com/LeRedTeam/cache-doctor" class="btn btn-ghost">Get started</a>
+            </div>
+            <div class="price-card featured">
+                <div class="label">Most popular</div>
+                <h3>Pro</h3>
+                <div class="price">$15<small>/mo</small></div>
+                <div class="period">or $119/year</div>
+                <ul>
+                    <li>Everything in Free</li>
+                    <li>19 lint rules</li>
+                    <li>SARIF output</li>
+                    <li>PR comments</li>
+                    <li>Hit/miss analysis</li>
+                </ul>
+                <a href="https://buy.stripe.com/3cIfZiehR25x2y4gG72cg05" class="btn btn-primary">Start Pro</a>
+            </div>
+            <div class="price-card">
+                <h3>Commercial</h3>
+                <div class="price">$149<small>/yr</small></div>
+                <div class="period">AGPL exemption</div>
+                <ul>
+                    <li>Everything in Pro</li>
+                    <li>Proprietary use license</li>
+                    <li>No copyleft obligations</li>
+                </ul>
+                <a href="https://buy.stripe.com/fZu00k4HhdOf8Ws9dF2cg04" class="btn btn-ghost">Get license</a>
+            </div>
+        </div>
+    </div>
 
+    <div class="divider"><hr></div>
+
+    <!-- iampg -->
+    <div class="product-section">
+        <div class="product-header">
+            <h2>iampg</h2>
+        </div>
+        <p class="product-pain"><strong>Stop guessing IAM permissions.</strong> Developers slap on AdministratorAccess because debugging AccessDenied takes hours. iampg generates the exact minimal policy from real API calls, then enforces it in CI.</p>
+
+        <div class="product-links">
+            <a href="https://github.com/LeRedTeam/iampg" class="btn btn-primary">View on GitHub</a>
+            <a href="https://leredteam.github.io/iampg" class="btn btn-ghost">Documentation</a>
+        </div>
+
+        <div class="terminal">
+            <div class="terminal-bar">
+                <div class="terminal-dot r"></div>
+                <div class="terminal-dot y"></div>
+                <div class="terminal-dot g"></div>
+                <span>terminal</span>
+            </div>
+            <pre><span class="t-prompt">$</span> <span class="t-cmd">iampg run -- aws s3 cp data.csv s3://my-bucket/uploads/</span>
+
+<span class="t-dim">{</span>
+  <span class="t-key">"Version"</span><span class="t-dim">:</span> <span class="t-str">"2012-10-17"</span><span class="t-dim">,</span>
+  <span class="t-key">"Statement"</span><span class="t-dim">: [{</span>
+    <span class="t-key">"Effect"</span><span class="t-dim">:</span> <span class="t-str">"Allow"</span><span class="t-dim">,</span>
+    <span class="t-key">"Action"</span><span class="t-dim">:</span> <span class="t-str">["s3:PutObject"]</span><span class="t-dim">,</span>
+    <span class="t-key">"Resource"</span><span class="t-dim">:</span> <span class="t-str">"arn:aws:s3:::my-bucket/uploads/data.csv"</span>
+  <span class="t-dim">}]</span>
+<span class="t-dim">}</span></pre>
+        </div>
+
+        <div class="pricing-row">
+            <div class="price-card">
+                <h3>Free</h3>
+                <div class="price">$0</div>
+                <div class="period">forever</div>
+                <ul>
+                    <li>run + parse commands</li>
+                    <li>JSON output</li>
+                    <li>Unlimited usage</li>
+                </ul>
+                <a href="https://github.com/LeRedTeam/iampg" class="btn btn-ghost">Get started</a>
+            </div>
+            <div class="price-card featured">
+                <div class="label">Most popular</div>
+                <h3>Pro</h3>
+                <div class="price">$19<small>/mo</small></div>
+                <div class="period">or $149/year</div>
+                <ul>
+                    <li>Everything in Free</li>
+                    <li>refine + aggregate</li>
+                    <li>YAML / Terraform / SARIF</li>
+                    <li>CI enforcement</li>
+                    <li>Policy drift detection</li>
+                </ul>
+                <a href="https://buy.stripe.com/7sY8wQ2z95hJc8E0H92cg00" class="btn btn-primary">Start Pro</a>
+            </div>
+            <div class="price-card">
+                <h3>Commercial</h3>
+                <div class="price">$149<small>/yr</small></div>
+                <div class="period">AGPL exemption</div>
+                <ul>
+                    <li>Everything in Pro</li>
+                    <li>Proprietary use license</li>
+                    <li>No copyleft obligations</li>
+                </ul>
+                <a href="https://buy.stripe.com/00w4gA0r1aC3fkQ61t2cg02" class="btn btn-ghost">Get license</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"><hr></div>
+
+    <!-- Philosophy -->
+    <div class="philosophy">
+        <h2>No backend. No SaaS. No BS.</h2>
+        <div class="phil-grid">
+            <div class="phil-item">
+                <h3>Single binary</h3>
+                <p>Download and run. No dependencies, no Docker, no setup.</p>
+            </div>
+            <div class="phil-item">
+                <h3>Zero telemetry</h3>
+                <p>Nothing sent anywhere. Ever. Not even crash reports.</p>
+            </div>
+            <div class="phil-item">
+                <h3>Offline license</h3>
+                <p>Ed25519 signatures. No phone-home, no license server.</p>
+            </div>
+            <div class="phil-item">
+                <h3>No credentials stored</h3>
+                <p>Uses your existing config. Never touches your keys.</p>
+            </div>
+            <div class="phil-item">
+                <h3>All processing local</h3>
+                <p>Your machine or CI runner. Your data stays yours.</p>
+            </div>
+            <div class="phil-item">
+                <h3>AGPL-3.0</h3>
+                <p>Open source. Read every line. Audit it yourself.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legal (collapsible) -->
+    <div class="legal">
+        <button class="legal-toggle" onclick="document.querySelector('.legal-content').classList.toggle('open'); this.textContent = this.textContent.includes('+') ? '− Policies (Refund, Terms, Privacy)' : '+ Policies (Refund, Terms, Privacy)'">+ Policies (Refund, Terms, Privacy)</button>
+        <div class="legal-content">
             <h3>Refund Policy</h3>
-            <p>We offer a 30-day refund policy, no questions asked. If you are not satisfied with your purchase, contact us within 30 days of payment for a full refund. Refunds are processed via the original payment method. The license key is revoked upon refund.</p>
+            <p>30-day refund, no questions asked. Contact us within 30 days of payment for a full refund via the original payment method. License key is revoked upon refund.</p>
 
             <h3>Terms of Service</h3>
             <p>By purchasing a license for any LeRedTeam product, you agree to the following:</p>
@@ -94,31 +314,32 @@
                 <li>Commercial licenses additionally grant an exemption from AGPL-3.0 obligations for proprietary use.</li>
                 <li>License keys must not be shared publicly or redistributed.</li>
                 <li>We reserve the right to revoke license keys in case of abuse or redistribution.</li>
-                <li>The software is provided "as is" without warranty of any kind. We are not liable for any damages arising from the use of the software.</li>
-                <li>Prices may change. Existing customers keep their rate until they cancel. 30-day notice before price increases.</li>
+                <li>The software is provided "as is" without warranty of any kind.</li>
+                <li>Prices may change. Existing customers keep their rate until they cancel. 30-day notice before increases.</li>
             </ul>
 
             <h3>Privacy Policy</h3>
-            <p>LeRedTeam is committed to your privacy:</p>
             <ul>
                 <li><strong>No data collection:</strong> Our tools run entirely on your machine or in your CI. No telemetry, no analytics, no tracking.</li>
                 <li><strong>No credential access:</strong> Tools use your existing credentials but never store, log, or transmit them.</li>
-                <li><strong>Payment data:</strong> Payments are processed by <a href="https://stripe.com/privacy">Stripe</a>. We do not store credit card information. We only retain your email address and license tier for license key generation.</li>
-                <li><strong>License validation:</strong> License keys are validated offline using cryptographic signatures. No network calls are made.</li>
+                <li><strong>Payment data:</strong> Payments processed by <a href="https://stripe.com/privacy">Stripe</a>. We do not store credit card information.</li>
+                <li><strong>License validation:</strong> Offline using cryptographic signatures. No network calls.</li>
                 <li><strong>No cookies:</strong> This website does not use cookies or tracking scripts.</li>
             </ul>
 
             <h3>Contact</h3>
             <p>
-                Email: <a href="mailto:leredteam@gmail.com">leredteam@gmail.com</a><br>
-                GitHub: <a href="https://github.com/LeRedTeam">github.com/LeRedTeam</a><br>
-                Location: Spain
+                <a href="mailto:leredteam@gmail.com">leredteam@gmail.com</a> &middot;
+                <a href="https://github.com/LeRedTeam">github.com/LeRedTeam</a> &middot;
+                Spain
             </p>
         </div>
-
-        <footer>
-            <p>&copy; 2026 LeRedTeam &middot; <a href="mailto:leredteam@gmail.com">Contact</a> &middot; <a href="https://github.com/LeRedTeam">GitHub</a> &middot; Spain</p>
-        </footer>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><a href="mailto:leredteam@gmail.com">leredteam@gmail.com</a> &middot; <a href="https://github.com/LeRedTeam">GitHub</a> &middot; Spain &middot; &copy; 2026 LeRedTeam</p>
+    </footer>
+
 </body>
 </html>

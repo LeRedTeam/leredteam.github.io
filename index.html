@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeRedTeam — CI/CD Tools That Catch What You Miss</title>
     <meta property="og:title" content="LeRedTeam — CI/CD Tools That Catch What You Miss">
-    <meta property="og:description" content="Fix GitHub Actions cache waste. Enforce least-privilege IAM. Two lines of YAML. Zero infrastructure.">
+    <meta property="og:description" content="Fix GitHub Actions cache waste. Debug AWS AccessDenied errors. Enforce least-privilege IAM. Two lines of YAML. Zero infrastructure.">
     <meta property="og:image" content="https://leredteam.github.io/LeRedLogo.jpeg">
     <meta property="og:url" content="https://leredteam.github.io">
     <meta property="og:type" content="website">
@@ -195,6 +195,95 @@
 
     <div class="divider"><hr></div>
 
+    <!-- awsdeny -->
+    <div class="product-section">
+        <div class="product-header">
+            <h2>awsdeny</h2>
+            <span class="badge badge-new">New</span>
+        </div>
+        <p class="product-pain"><strong>AWS AccessDenied errors don't tell you what went wrong or how to fix it.</strong> Was it an SCP? A permission boundary? A cross-account trust issue? A typo in the action name? awsdeny tells you in seconds — with a ready-to-paste policy fix.</p>
+
+        <div class="product-links">
+            <a href="https://github.com/LeRedTeam/awsdeny" class="btn btn-primary">View on GitHub</a>
+            <a href="https://github.com/LeRedTeam/awsdeny#quick-start" class="btn btn-ghost">Quick start</a>
+        </div>
+
+        <div class="terminal">
+            <div class="terminal-bar">
+                <div class="terminal-dot r"></div>
+                <div class="terminal-dot y"></div>
+                <div class="terminal-dot g"></div>
+                <span>awsdeny explain</span>
+            </div>
+            <pre><span class="t-prompt">$</span> <span class="t-cmd">awsdeny explain --error "User: arn:aws:iam::123:role/MyRole</span>
+  <span class="t-cmd">is not authorized to perform: s3:GetObject on resource:</span>
+  <span class="t-cmd">arn:aws:s3:::bucket/key because no identity-based policy</span>
+  <span class="t-cmd">allows the s3:GetObject action"</span>
+
+<span class="t-head">  Access Denied</span>
+
+  <span class="t-dim">Action:</span>    <span class="t-cmd">s3:GetObject</span>
+  <span class="t-dim">Resource:</span>  <span class="t-cmd">arn:aws:s3:::bucket/key</span>
+  <span class="t-dim">Principal:</span> <span class="t-cmd">arn:aws:iam::123:role/MyRole</span>
+
+  <span class="t-dim">Analysis:</span>
+    <span class="t-dim">Type:</span>   <span class="t-warn">Implicit deny</span>
+    <span class="t-dim">Source:</span> <span class="t-cmd">Identity-based policy</span>
+    <span class="t-dim">Reason:</span> <span class="t-cmd">No identity-based policy grants the required</span>
+            <span class="t-cmd">permission.</span>
+
+  <span class="t-dim">Suggested fixes:</span>
+    <span class="t-ok">1.</span> <span class="t-str">Add to your policy: {"Effect": "Allow",</span>
+       <span class="t-str">"Action": "s3:GetObject", "Resource": "...bucket/key"}</span>
+    <span class="t-ok">2.</span> <span class="t-cmd">Attach a managed policy that includes this permission</span>
+
+  <span class="t-dim">Confidence:</span> <span class="t-ok">very-high</span> <span class="t-dim">(heuristic match)</span></pre>
+        </div>
+
+        <div class="pricing-row">
+            <div class="price-card">
+                <h3>Free</h3>
+                <div class="price">$0</div>
+                <div class="period">forever</div>
+                <ul>
+                    <li>23 heuristic patterns</li>
+                    <li>Action typo detection</li>
+                    <li>Offline policy analysis</li>
+                    <li>CloudWatch Insights queries</li>
+                    <li>JSON output</li>
+                </ul>
+                <a href="https://github.com/LeRedTeam/awsdeny" class="btn btn-ghost">Get started</a>
+            </div>
+            <div class="price-card featured">
+                <div class="label">Most popular</div>
+                <h3>Pro</h3>
+                <div class="price">$29<small>/mo</small></div>
+                <div class="period">or $199/year</div>
+                <ul>
+                    <li>Everything in Free</li>
+                    <li>AWS enrichment</li>
+                    <li>Ranked policy suggestions</li>
+                    <li>CloudTrail analysis</li>
+                    <li>SARIF + PR comments</li>
+                </ul>
+                <a href="https://buy.stripe.com/cNidRa7TtaC37So89B2cg08" class="btn btn-primary">Start Pro</a>
+            </div>
+            <div class="price-card">
+                <h3>Commercial</h3>
+                <div class="price">$199<small>/yr</small></div>
+                <div class="period">AGPL exemption</div>
+                <ul>
+                    <li>Everything in Pro</li>
+                    <li>Proprietary use license</li>
+                    <li>No copyleft obligations</li>
+                </ul>
+                <a href="https://buy.stripe.com/cNicN60r125xfkQ89B2cg07" class="btn btn-ghost">Get license</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"><hr></div>
+
     <!-- iampg -->
     <div class="product-section">
         <div class="product-header">
@@ -292,7 +381,7 @@
             </div>
             <div class="phil-item">
                 <h3>Offline license</h3>
-                <p>Ed25519 signatures. No phone-home, no license server.</p>
+                <p>Cryptographic signatures. No phone-home, no license server.</p>
             </div>
             <div class="phil-item">
                 <h3>No credentials stored</h3>
